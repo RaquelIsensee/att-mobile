@@ -6,8 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,33 +49,50 @@ fun DefaultPreview() {
 }
 @Composable
 fun MyApp(){
+    val navController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
     val application = LocalContext.current.applicationContext as Application
     val viewModel: RegisterNewUserViewModel = viewModel(
         factory = RegisterNewUserViewModelFactory(application)
     )
-    Column() {
-        OutlinedTextField(
-            value =  viewModel.name,
-            onValueChange = {},
-            label = {
-                Text(text = "Name")
-            })
-        OutlinedTextField(
-            value =viewModel.email,
-            onValueChange = {},
-            label = {
-                Text(text = "E-mail")
-            })
-        OutlinedTextField(
-            value = viewModel.password,
-            onValueChange = {},
-            label = {
-                Text(text = "Password")
-            })
-        Button(onClick = {
-            viewModel.registrar()
-        }) {
-            Text(text = "Salvar")
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar() {
+                Button(onClick = {navController.navigate("form")}){
+                    Text(text = "Add")
+                }
+            }
+        }
+    ) {
+        Column(modifier = Modifier.padding(paddingValues = it)) {
+            OutlinedTextField(
+                value =  viewModel.name,
+                onValueChange = {},
+                label = {
+                    Text(text = "Name")
+                })
+            OutlinedTextField(
+                value =viewModel.email,
+                onValueChange = {},
+                label = {
+                    Text(text = "E-mail")
+                })
+            OutlinedTextField(
+                value = viewModel.password,
+                onValueChange = {},
+                label = {
+                    Text(text = "Password")
+                })
+            Button(onClick = {
+                viewModel.registrar()
+            }) {
+                Text(text = "Salvar")
+            }
         }
     }
+
+
+
 }
