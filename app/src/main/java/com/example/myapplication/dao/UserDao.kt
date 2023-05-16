@@ -1,26 +1,23 @@
 package com.example.myapplication.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.myapplication.entity.User
+
 
 @Dao
 interface UserDao {
-    @Insert
-    suspend fun insert(user: User)
+     @Insert
+      fun insert(user: User)
 
-    @Update
-    suspend fun update(user: User)
+     @Update
+      fun update(user: User)
 
-    @Delete
-    suspend fun delete(user: User)
+     @Delete
+      fun delete(user: User)
 
-    @Query("select * from user u order by u.name")
-    suspend fun findAll(): List<User>
+     @Query("select * from user u order by u.name")
+      fun findAll(): List<User>
 
-    @Query("select * from user u where u.name = :name")
-    suspend fun findByName(name: String): User
+     @Query("select * from user u where u.name = :name")
+      fun findByName(name: String): User
 }
